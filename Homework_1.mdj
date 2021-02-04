@@ -1,0 +1,51 @@
+{
+	"_type": "Project",
+	"_id": "AAAAAAFF+h6SjaM2Hec=",
+	"name": "Untitled",
+	"ownedElements": [
+		{
+			"_type": "UMLModel",
+			"_id": "AAAAAAFF+qBWK6M3Z8Y=",
+			"_parent": {
+				"$ref": "AAAAAAFF+h6SjaM2Hec="
+			},
+			"name": "Model",
+			"ownedElements": [
+				{
+					"_type": "UMLClassDiagram",
+					"_id": "AAAAAAFF+qBtyKM79qY=",
+					"_parent": {
+						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
+					},
+					"name": "Main",
+					"defaultDiagram": true,
+					"ownedViews": [
+						{
+							"_type": "UMLTextView",
+							"_id": "AAAAAAF3Q+O4lgtAta0=",
+							"_parent": {
+								"$ref": "AAAAAAFF+qBtyKM79qY="
+							},
+							"font": "Arial;13;0",
+							"left": 64,
+							"top": 40,
+							"width": 505,
+							"height": 401,
+							"text": "Для \"домашней\" CRM-системы, на мой взгляд, наиболее подходит  архитектура \"клиент-сервер\", разбивающее приложение по функциональному признаку.      Обусловлено это следующими причинами:                                                                - доступ к данным, хранящимся на сервере, полностью контролируется.\n- в следствие данной централизации упрощается администрирование. \n- роли в обработке данных могут быть распределены между несколькими серверами, благодаря чему клиент не подвержен влиянию событий, происходящих с сервером.\n\n\n"
+						},
+						{
+							"_type": "UMLNoteView",
+							"_id": "AAAAAAF3Q+x+J+Rkw5U=",
+							"_parent": {
+								"$ref": "AAAAAAFF+qBtyKM79qY="
+							},
+							"font": "Arial;13;0",
+							"width": 70,
+							"height": 40
+						}
+					]
+				}
+			]
+		}
+	]
+}
