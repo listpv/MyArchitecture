@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>Спмсок клиентов</title>
+    <th:block th:replace="~{fragments/resources :: head/link}"></th:block>
+    <th:block th:replace="~{fragments/resources :: head/script}"></th:block>
+</head>
+<body>
+<div class="container">
+    <div th:replace="~{fragments/navigation :: navigation(Users)}" />
+    <h1>Спмсок клиентов</h1>
+
+    <br>
+    <table class="table table-hover">
+        <thead class="thead-dark">
+        <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Имя</th>
+            <th>Адрес</th>
+            <th>ДР</th>
+            <th>Email</th>
+            <th>Телефон</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="u : ${users}">
+            <td th:text="${u.id}"/>
+            <td th:text="${u.getUsername()}"/>
+            <td th:text="${u.name}"/>
+            <td th:text="${u.getAddress()}"/>
+            <td th:text="${u.getBirthday()}"/>
+            <td th:text="${u.getEmail()}"/>
+            <td th:text="${u.getPhone()}"/>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

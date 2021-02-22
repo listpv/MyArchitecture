@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="utf-8"/>
+    <title>Список заказов</title>
+    <th:block th:replace="~{fragments/resources :: head/link}"></th:block>
+    <th:block th:replace="~{fragments/resources :: head/script}"></th:block>
+</head>
+<body>
+<div class="container">
+    <div th:replace="~{fragments/navigation :: navigation(Orders)}" />
+    <h1>Список заказов</h1>
+    <table class="table table-hover">
+        <thead class="thead-dark">
+        <tr>
+            <th>ID</th>
+            <th>Код заказ</th>
+            <th>Клиент</th>
+            <th>Цена</th>
+            <th>Действие</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="o : ${orders}">
+            <td th:text="${o.id}"/>
+            <td th:text="${o.code}"/>
+            <td th:text="${o.user.name}"/>
+            <td th:text="${o.totalPrice}"/>
+            <td>
+                <a class="btn btn-danger" sec:authorize="hasAnyRole('ADMIN')" th:href="@{'/orders/remove/' + ${o.id}}">Посмотреть</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
