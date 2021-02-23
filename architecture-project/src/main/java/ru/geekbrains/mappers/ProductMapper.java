@@ -1,5 +1,6 @@
 package ru.geekbrains.mappers;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 import ru.geekbrains.entities.Product;
@@ -8,13 +9,10 @@ import ru.geekbrains.repositories.CategoryRepository;
 import java.sql.*;
 
 @Component
+@RequiredArgsConstructor
 public class ProductMapper implements RowMapper<Product> {
 
     private final CategoryRepository categoryRepository;
-
-    public ProductMapper(CategoryRepository categoryRepository) {
-        this.categoryRepository = categoryRepository;
-    }
 
     @Override
     public Product mapRow(ResultSet rs, int rowNum) throws SQLException {

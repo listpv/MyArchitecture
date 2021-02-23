@@ -1,25 +1,17 @@
 package ru.geekbrains.services;
-
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.jpa.domain.Specification;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.geekbrains.entities.Product;
 import ru.geekbrains.repositories.ProductRepository;
-
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class ProductService {
 
-    private ProductRepository productRepository;
-
-    public ProductService(ProductRepository productRepository) {
-        this.productRepository = productRepository;
-    }
+    private final ProductRepository productRepository;
 
     public List<Product> getProductsByCategory(String code){
         return productRepository.getProductsByCategory(code);
@@ -31,11 +23,7 @@ public class ProductService {
 
     @Transactional
     public void insert(Product product){
-        try {
             productRepository.insert(product);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
     }
 
     @Transactional

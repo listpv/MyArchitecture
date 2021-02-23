@@ -1,32 +1,25 @@
 package ru.geekbrains.repositories;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import ru.geekbrains.entities.Category;
-import ru.geekbrains.entities.Product;
 import ru.geekbrains.mappers.CategoryMapper;
-import ru.geekbrains.mappers.ProductMapper;
-
-import java.sql.SQLException;
 import java.util.List;
 
 @Repository
+@RequiredArgsConstructor
 public class CategoryRepository {
 
     private final JdbcTemplate jdbcTemplate;
     private final CategoryMapper categoryMapper;
 
-    public CategoryRepository(JdbcTemplate jdbcTemplate, CategoryMapper categoryMapper) {
-        this.jdbcTemplate = jdbcTemplate;
-        this.categoryMapper = categoryMapper;
-    }
-
-    public Category findCategoryByName(String name) throws SQLException {
+    public Category findCategoryByName(String name){
         String sql = String.format("select * from categories where name = '%s' limit 1", name);
         return jdbcTemplate.queryForObject(sql, categoryMapper);
     }
 
-    public void insert(Category category) throws SQLException {
+    public void insert(Category category){
         String sql = String.format("insert into categories (code, name) values('%s', '%s')", category.getCode(), category.getName() );
         jdbcTemplate.execute(sql);
     }

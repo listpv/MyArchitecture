@@ -1,5 +1,6 @@
 package ru.geekbrains.controllers;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,18 +11,13 @@ import ru.geekbrains.services.ProductService;
 import ru.geekbrains.services.UserService;
 
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("/")
 public class HomePageController {
 
-    private CategoryService categoryService;
-    private ProductService productService;
-    private UserService userService;
-
-    public HomePageController(CategoryService categoryService, ProductService productService, UserService userService) {
-        this.categoryService = categoryService;
-        this.productService = productService;
-        this.userService = userService;
-    }
+    private final CategoryService categoryService;
+    private final ProductService productService;
+    private final UserService userService;
 
     @GetMapping
     public String main(Model model){

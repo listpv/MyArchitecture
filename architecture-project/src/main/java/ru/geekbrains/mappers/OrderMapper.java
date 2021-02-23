@@ -1,5 +1,6 @@
 package ru.geekbrains.mappers;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 import ru.geekbrains.entities.Order;
@@ -9,13 +10,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 @Component
+@RequiredArgsConstructor
 public class OrderMapper implements RowMapper<Order> {
 
     private final UserRepository userRepository;
-
-    public OrderMapper(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
 
     @Override
     public Order mapRow(ResultSet rs, int rowNum) throws SQLException {

@@ -1,5 +1,6 @@
 package ru.geekbrains.repositories;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import ru.geekbrains.entities.User;
@@ -8,17 +9,12 @@ import ru.geekbrains.mappers.UserMapper;
 import java.util.List;
 
 @Repository
+@RequiredArgsConstructor
 public class UserRepository {
 
     private final JdbcTemplate jdbcTemplate;
     private final UserMapper userMapper;
     private final RoleRepository roleRepository;
-
-    public UserRepository(JdbcTemplate jdbcTemplate, UserMapper userMapper, RoleRepository roleRepository) {
-        this.jdbcTemplate = jdbcTemplate;
-        this.userMapper = userMapper;
-        this.roleRepository = roleRepository;
-    }
 
     public void insert(User user){
         String sql = String.format("insert into users (username, name, password, phone, email, address, birthday) " +

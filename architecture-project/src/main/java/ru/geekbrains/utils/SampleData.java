@@ -1,5 +1,6 @@
 package ru.geekbrains.utils;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import ru.geekbrains.entities.Category;
 import ru.geekbrains.entities.Product;
@@ -9,10 +10,10 @@ import ru.geekbrains.repositories.*;
 
 import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
-import java.sql.SQLException;
 import java.util.Date;
 
 //@Component
+@RequiredArgsConstructor
 public class SampleData {
 
     private final CategoryRepository categoryRepository;
@@ -21,23 +22,12 @@ public class SampleData {
     private final UserRepository userRepository;
     private final UserRoleRepository userRoleRepository;
 
-    public SampleData(CategoryRepository categoryRepository,
-                      ProductRepository productRepository,
-                      RoleRepository roleRepository, UserRepository userRepository, UserRoleRepository userRoleRepository) {
-        this.categoryRepository = categoryRepository;
-        this.productRepository = productRepository;
-        this.roleRepository = roleRepository;
-        this.userRepository = userRepository;
-        this.userRoleRepository = userRoleRepository;
-    }
-
     @PostConstruct
     public void init(){
         Category category1 = new Category("redFruit", "Red fruit");
         Category category2 = new Category("yellowFruit", "Yellow Fruit");
         Category category3 = new Category("other", "Other");
 
-        try {
             categoryRepository.insert(category1);
             categoryRepository.insert(category2);
             categoryRepository.insert(category3);
@@ -111,11 +101,6 @@ public class SampleData {
             userRoleRepository.insert(user1, role2);
             userRoleRepository.insert(user2, role1);
 
-
-
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
 
     }
 }

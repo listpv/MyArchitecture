@@ -1,5 +1,7 @@
 package ru.geekbrains.services;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
@@ -14,11 +16,13 @@ import java.util.Iterator;
 import java.util.List;
 
 @Component
+@Setter
+@Getter
 @Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class CartService {
 
     private List<OrderEntry> orderEntries;
-    private BigDecimal totalPrice = new BigDecimal(0.0);
+    private BigDecimal totalPrice = BigDecimal.ZERO;
     private Integer totalQuantity = 0;
 
     @PostConstruct
@@ -67,7 +71,7 @@ public class CartService {
     }
 
     public void recalculate() {
-        totalPrice = new BigDecimal(0.0);
+        totalPrice =BigDecimal.ZERO;
         totalQuantity = 0;
         for (OrderEntry orderEntry : orderEntries) {
             BigDecimal price = orderEntry.getBasePrice().multiply(new BigDecimal (orderEntry.getQuantity()));
@@ -82,31 +86,8 @@ public class CartService {
         recalculate();
     }
 
-    Iterator<OrderEntry> getOrderEntryIterator(){
+    public Iterator<OrderEntry> getOrderEntryIterator(){
         return orderEntries.iterator();
     }
 
-    public List<OrderEntry> getOrderEntries() {
-        return orderEntries;
-    }
-
-    public void setOrderEntries(List<OrderEntry> orderEntries) {
-        this.orderEntries = orderEntries;
-    }
-
-    public BigDecimal getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(BigDecimal totalPrice) {
-        this.totalPrice = totalPrice;
-    }
-
-    public Integer getTotalQuantity() {
-        return totalQuantity;
-    }
-
-    public void setTotalQuantity(Integer totalQuantity) {
-        this.totalQuantity = totalQuantity;
-    }
 }

@@ -1,6 +1,6 @@
 package ru.geekbrains.repositories;
 
-import org.springframework.data.jpa.domain.Specification;
+import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import ru.geekbrains.entities.Order;
@@ -9,15 +9,11 @@ import ru.geekbrains.mappers.OrderMapper;
 import java.util.List;
 
 @Repository
+@RequiredArgsConstructor
 public class OrderRepository {
 
     private final JdbcTemplate jdbcTemplate;
     private final OrderMapper orderMapper;
-
-    public OrderRepository(JdbcTemplate jdbcTemplate, OrderMapper orderMapper) {
-        this.jdbcTemplate = jdbcTemplate;
-        this.orderMapper = orderMapper;
-    }
 
     public List<Order> findAll(){
         String sql = String.format("select * from orders");

@@ -1,6 +1,6 @@
 package ru.geekbrains.services;
 
-import org.springframework.data.jpa.domain.Specification;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.geekbrains.entities.Order;
@@ -12,20 +12,13 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class OrderService {
 
-    private OrderRepository orderRepository;
-    private CartService cartService;
-    private UserService userService;
-    private OrderEntryService orderEntryService;
-
-    public OrderService(OrderRepository orderRepository, CartService cartService,
-                        UserService userService, OrderEntryService orderEntryService) {
-        this.orderRepository = orderRepository;
-        this.cartService = cartService;
-        this.userService = userService;
-        this.orderEntryService = orderEntryService;
-    }
+    private final OrderRepository orderRepository;
+    private final CartService cartService;
+    private final UserService userService;
+    private final OrderEntryService orderEntryService;
 
     @Transactional
     public Order createOrder() {

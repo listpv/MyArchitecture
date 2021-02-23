@@ -1,5 +1,6 @@
 package ru.geekbrains.controllers;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,14 +11,11 @@ import ru.geekbrains.exceptions.ResourceNotFoundException;
 import ru.geekbrains.services.ProductService;
 
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("/product")
 public class ProductController {
 
-    private ProductService productService;
-
-    public ProductController(ProductService productService) {
-        this.productService = productService;
-    }
+    private final ProductService productService;
 
     @GetMapping("/{id}")
     public String getProductById(
@@ -25,7 +23,6 @@ public class ProductController {
             Model model
     ) {
         Product product = productService.getOne(id);
-        System.out.println(product);
         model.addAttribute("product", product);
         return "product";
     }

@@ -1,5 +1,6 @@
 package ru.geekbrains.controllers;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,14 +15,11 @@ import ru.geekbrains.services.UserService;
 import javax.validation.Valid;
 
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("/registration")
 public class RegistrationController {
 
-    private UserService userService;
-
-    public RegistrationController(UserService userService) {
-        this.userService = userService;
-    }
+    private final UserService userService;
 
     @GetMapping
     public String registration(
@@ -40,7 +38,6 @@ public class RegistrationController {
             return "registration";
         }
         User user = userService.createUser(userData);
-        System.out.println(user);
         userService.authenticateUser(user);
         return "redirect:/";
     }

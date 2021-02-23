@@ -1,40 +1,29 @@
 package ru.geekbrains.controllers;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.geekbrains.entities.Order;
 import ru.geekbrains.entities.Product;
 import ru.geekbrains.services.CartService;
-import ru.geekbrains.services.OrderService;
 import ru.geekbrains.services.ProductService;
 import ru.geekbrains.services.WrapProxyOrderService;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("/cart")
 public class CartController {
 
-    private ProductService productService;
-    private CartService cartService;
-//    private OrderService orderService;
-    private WrapProxyOrderService wrapProxyOrderService;
-
-    public CartController(ProductService productService, CartService cartService,
-             WrapProxyOrderService wrapProxyOrderService
-//            , OrderService orderService
-    ) {
-        this.productService = productService;
-        this.cartService = cartService;
-//        this.orderService = orderService;
-        this.wrapProxyOrderService = wrapProxyOrderService;
-    }
+    private final ProductService productService;
+    private final CartService cartService;
+//    private final OrderService orderService;
+    private final WrapProxyOrderService wrapProxyOrderService;
 
     @GetMapping
     public String showCartPage() {

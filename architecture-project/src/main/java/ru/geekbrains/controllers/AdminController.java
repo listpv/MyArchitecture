@@ -1,5 +1,6 @@
 package ru.geekbrains.controllers;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.stereotype.Controller;
@@ -16,26 +17,24 @@ import ru.geekbrains.services.UserService;
 import ru.geekbrains.utils.ProductPriceObserver;
 import ru.geekbrains.utils.Subject;
 
+import javax.annotation.PostConstruct;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 
 @Controller
+@RequiredArgsConstructor
 @EnableGlobalMethodSecurity(securedEnabled = true)
 @RequestMapping("/admin")
 public class AdminController extends Subject {
 
-    private ProductService productService;
-    private OrderService orderService;
-    private UserService userService;
-    private CategoryService categoryService;
+    private final ProductService productService;
+    private final OrderService orderService;
+    private final UserService userService;
+    private final CategoryService categoryService;
 
-    public AdminController(ProductService productService, OrderService orderService,
-                           UserService userService, CategoryService categoryService) {
-        this.productService = productService;
-        this.orderService = orderService;
-        this.userService = userService;
-        this.categoryService = categoryService;
+    @PostConstruct
+    private void attachObserver(){
         attach(new ProductPriceObserver());
     }
 

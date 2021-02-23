@@ -9,12 +9,6 @@ import java.sql.SQLException;
 @Component
 public class UserMapper implements RowMapper<User> {
 
-//    private final UserRoleRepository userRoleRepository;
-//
-//    public UserMapper(UserRoleRepository userRoleRepository) {
-//        this.userRoleRepository = userRoleRepository;
-//    }
-
     @Override
     public User mapRow(ResultSet rs, int rowNum) throws SQLException {
         User user = new User();

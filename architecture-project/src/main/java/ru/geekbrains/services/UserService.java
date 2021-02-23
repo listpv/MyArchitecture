@@ -1,5 +1,6 @@
 package ru.geekbrains.services;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -22,16 +23,16 @@ import ru.geekbrains.utils.UserBuilder;
 import java.security.Principal;
 import java.util.Collection;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class UserService implements UserDetailsService {
 
-    private UserRepository userRepository;
-    private PasswordEncoder passwordEncoder;
-    private RoleService roleService;
-    private UserRoleRepository userRoleRepository;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final RoleService roleService;
+    private final UserRoleRepository userRoleRepository;
 
 //    public UserService(UserRepository userRepository
 //            , PasswordEncoder passwordEncoder
@@ -41,13 +42,13 @@ public class UserService implements UserDetailsService {
 //    }
 
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder,
-                       RoleService roleService, UserRoleRepository userRoleRepository) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.roleService = roleService;
-        this.userRoleRepository = userRoleRepository;
-    }
+//    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder,
+//                       RoleService roleService, UserRoleRepository userRoleRepository) {
+//        this.userRepository = userRepository;
+//        this.passwordEncoder = passwordEncoder;
+//        this.roleService = roleService;
+//        this.userRoleRepository = userRoleRepository;
+//    }
 
     public User findByUsername(String username) {
         return userRepository.findByUserName(username);
@@ -59,8 +60,6 @@ public class UserService implements UserDetailsService {
 
     public User getCurrentUser(){
         Principal principal = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println("userService = " + principal);
-        System.out.println("userService name = " + principal.getName());
         return findByUsername(principal.getName());
     }
 
@@ -95,6 +94,8 @@ public class UserService implements UserDetailsService {
 //        return user;
 //    }
 
+
+    ///  Испрользую UserBuilder
     public User createUser(UserData userData){
         User user = (new UserBuilder())
                 .setName(userData.getName())
@@ -107,6 +108,7 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
+    ///  Испрользую UserBuilder
     public User createUser(UserAdminData userAdminData){
         User user = (new UserBuilder())
                 .setName(userAdminData.getName())

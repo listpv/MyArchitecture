@@ -1,5 +1,4 @@
 package ru.geekbrains.utils;
-
 import ru.geekbrains.entities.User;
 
 public class UserBuilder {

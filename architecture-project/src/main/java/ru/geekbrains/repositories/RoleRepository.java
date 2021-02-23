@@ -1,24 +1,19 @@
 package ru.geekbrains.repositories;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import ru.geekbrains.entities.Role;
 import ru.geekbrains.entities.User;
 import ru.geekbrains.mappers.RoleMapper;
-
-import java.util.Collection;
 import java.util.List;
 
 @Repository
+@RequiredArgsConstructor
 public class RoleRepository {
 
     private final JdbcTemplate jdbcTemplate;
-    private RoleMapper roleMapper;
-
-    public RoleRepository(JdbcTemplate jdbcTemplate, RoleMapper roleMapper) {
-        this.jdbcTemplate = jdbcTemplate;
-        this.roleMapper = roleMapper;
-    }
+    private final RoleMapper roleMapper;
 
     public void insert(Role role){
         String sql = String.format("insert into roles (name) values ('%s')", role.getName());
