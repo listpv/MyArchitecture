@@ -16,7 +16,7 @@ import java.util.UUID;
 public class OrderService {
 
     private final OrderRepository orderRepository;
-    private final CartService cartService;
+    private final CartServiceRealization cartServiceRealization;
     private final UserService userService;
     private final OrderEntryService orderEntryService;
 
@@ -27,17 +27,17 @@ public class OrderService {
         User user = userService.getCurrentUser();
         System.out.println("createOrder user = " + user);
         order.setUser(user);
-        order.setTotalPrice(cartService.getTotalPrice());
-        order.setOrderEntries(cartService.getOrderEntries());
+        order.setTotalPrice(cartServiceRealization.getTotalPrice());
+        order.setOrderEntries(cartServiceRealization.getOrderEntries());
         orderRepository.insert(order);
         Order orderBD = orderRepository.findOrderByCode(order.getCode());
-        cartService.getOrderEntries().stream().forEach(orderEntry -> {
+        cartServiceRealization.getOrderEntries().stream().forEach(orderEntry -> {
             orderEntry.setOrder(orderBD);
         });
-        for(OrderEntry o : cartService.getOrderEntries()){
+        for(OrderEntry o : cartServiceRealization.getOrderEntries()){
             orderEntryService.insert(o);
         }
-        cartService.clearCart();
+        cartServiceRealization.clearCart();
         return order;
     }
 

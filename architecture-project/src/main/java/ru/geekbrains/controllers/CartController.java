@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.geekbrains.entities.Order;
 import ru.geekbrains.entities.Product;
-import ru.geekbrains.services.CartService;
+import ru.geekbrains.services.CartServiceRealization;
 import ru.geekbrains.services.ProductService;
 import ru.geekbrains.services.WrapProxyOrderService;
 import javax.servlet.http.HttpServletRequest;
@@ -21,7 +21,7 @@ import java.io.IOException;
 public class CartController {
 
     private final ProductService productService;
-    private final CartService cartService;
+    private final CartServiceRealization cartServiceRealization;
 //    private final OrderService orderService;
     private final WrapProxyOrderService wrapProxyOrderService;
 
@@ -36,19 +36,19 @@ public class CartController {
             , HttpServletRequest request
             , HttpServletResponse response) throws IOException {
         Product product = productService.getOne(productId);
-        cartService.addOneAndUpdate(product);
+        cartServiceRealization.addOneAndUpdate(product);
         response.sendRedirect(request.getHeader("referer"));
     }
 
     @GetMapping("/removeOne/{product_id}")
     public String removeOne(@PathVariable(name = "product_id") Long productId) {
-        cartService.removeOneAndUpdate(productId);
+        cartServiceRealization.removeOneAndUpdate(productId);
         return "redirect:/cart";
     }
 
     @GetMapping("/removeAll/{product_id}")
     public String removeAll(@PathVariable(name = "product_id") Long productId) {
-        cartService.removeAll(productId);
+        cartServiceRealization.removeAll(productId);
         return "redirect:/cart";
     }
 
@@ -57,7 +57,7 @@ public class CartController {
     public String clearCart(
             Model model
     ) {
-        cartService.clearCart();
+        cartServiceRealization.clearCart();
         return "cart";
     }
 

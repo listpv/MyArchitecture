@@ -1,18 +1,17 @@
 package ru.geekbrains.entities;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import java.util.Objects;
 
 @Setter
 @Getter
+@RequiredArgsConstructor
 public class Role{
 
     private Long id;
 
     private String name;
-
-    public Role() {
-    }
 
     public Role(String name) {
         this.name = name;

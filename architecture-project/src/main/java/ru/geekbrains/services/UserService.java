@@ -1,6 +1,8 @@
 package ru.geekbrains.services;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -26,6 +28,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@EnableAsync(proxyTargetClass = true)
+@EnableCaching(proxyTargetClass = true)
 @RequiredArgsConstructor
 public class UserService implements UserDetailsService {
 

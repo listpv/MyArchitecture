@@ -1,6 +1,7 @@
 package ru.geekbrains.repositories;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.java.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -11,6 +12,7 @@ import ru.geekbrains.mappers.ProductMapper;
 import java.util.*;
 
 @Repository
+@Log
 @RequiredArgsConstructor
 public class ProductRepository {
 
@@ -19,11 +21,11 @@ public class ProductRepository {
 
     private final Map<Long, Product> identityMap = new HashMap<>();
 
-    private static final Logger logger = LoggerFactory.getLogger(Product.class);
+//    private static final Logger logger = LoggerFactory.getLogger(Product.class);
 
     public void insert(Product product){
         identityMap.remove(product.getId());
-        logger.info("КОЛИЧЕСТВО ПРОДУКТОВ УМЕНЬШИЛОСЬ -- " + identityMap.size());
+        log.info("КОЛИЧЕСТВО ПРОДУКТОВ УМЕНЬШИЛОСЬ -- " + identityMap.size());
         String sql = String.format("insert into products (title, brand_name, image, price, category_id) " +
                         "values('%s', '%s', '%s', %s, %s)", product.getTitle(),
                 product.getBrandName(), product.getImage(), product.getPrice(), product.getCategory().getId());
@@ -51,7 +53,7 @@ public class ProductRepository {
         if(productList.size() != 0){
             for(Product p : productList){
                 identityMap.put(p.getId(), p);
-                logger.info("КОЛИЧЕСТВО ПРОДУКТОВ В PRODUCT_IDENTITY_MAP УВЕЛИЧИЛОСЬ -- " + identityMap.size());
+                log.info("КОЛИЧЕСТВО ПРОДУКТОВ В PRODUCT_IDENTITY_MAP УВЕЛИЧИЛОСЬ -- " + identityMap.size());
             }
         }
 
@@ -75,7 +77,7 @@ public class ProductRepository {
             product = jdbcTemplate.queryForObject(sql, productMapper);
             if (product != null) {
                 identityMap.put(id, product);
-                logger.info("КОЛИЧЕСТВО ПРОДУКТОВ В PRODUCT_IDENTITY_MAP УВЕЛИЧИЛОСЬ -- " + identityMap.size());
+                log.info("КОЛИЧЕСТВО ПРОДУКТОВ В PRODUCT_IDENTITY_MAP УВЕЛИЧИЛОСЬ -- " + identityMap.size());
             }
         }
         return product;
@@ -83,7 +85,7 @@ public class ProductRepository {
 
     public void update(Product product){
         identityMap.remove(product.getId());
-        logger.info("КОЛИЧЕСТВО ПРОДУКТОВ В PRODUCT_IDENTITY_MAP УМЕНЬШИЛОСЬ -- " + identityMap.size());
+        log.info("КОЛИЧЕСТВО ПРОДУКТОВ УМЕНЬШИЛОСЬ -- " + identityMap.size());
         String sql = String.format("update products set title = '%s', brand_name = '%s', image = '%s'," +
                 " price = %s, category_id = %s where id = %s", product.getTitle(), product.getBrandName(), product.getImage(),
                  product.getPrice(), product.getCategory().getId(), product.getId());
