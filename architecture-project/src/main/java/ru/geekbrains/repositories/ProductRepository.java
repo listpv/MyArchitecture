@@ -7,9 +7,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import ru.geekbrains.entities.Product;
 import ru.geekbrains.mappers.ProductMapper;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
+import java.util.*;
 
 @Repository
 @RequiredArgsConstructor
@@ -31,9 +30,36 @@ public class ProductRepository {
         jdbcTemplate.execute(sql);
     }
 
+//    public List<Product> findAll(){
+//        String sql = String.format("select * from products");
+//        return jdbcTemplate.query(sql, productMapper);
+//    }
+
     public List<Product> findAll(){
-        String sql = String.format("select * from products");
-        return jdbcTemplate.query(sql, productMapper);
+        StringBuilder stringForSql = new StringBuilder("");
+        if(identityMap.size() != 0){
+            stringForSql.append(" where ");
+            for(Long i : identityMap.keySet()){
+                stringForSql.append("id != ").append(i).append(" and ");
+            }
+//            System.out.println("STRING STRING_FOR_SQL --  " + stringForSql);
+            stringForSql.delete(stringForSql.length() - 5, stringForSql.length());
+        }
+        String sql = String.format("select * from products" + stringForSql);
+//        System.out.println("STRING SQL --  " + sql);
+        List<Product> productList = jdbcTemplate.query(sql, productMapper);
+        if(productList.size() != 0){
+            for(Product p : productList){
+                identityMap.put(p.getId(), p);
+                logger.info("КОЛИЧЕСТВО ПРОДУКТОВ В PRODUCT_IDENTITY_MAP УВЕЛИЧИЛОСЬ -- " + identityMap.size());
+            }
+        }
+
+        List<Product> resultList = new ArrayList<>();
+        for(Long i : identityMap.keySet()){
+            resultList.add(identityMap.get(i));
+        }
+        return resultList;
     }
 
     public List<Product> getProductsByCategory(String code){
@@ -49,7 +75,7 @@ public class ProductRepository {
             product = jdbcTemplate.queryForObject(sql, productMapper);
             if (product != null) {
                 identityMap.put(id, product);
-                logger.info("КОЛИЧЕСТВО ПРОДУКТОВ УВЕЛИЧИЛОСЬ -- " + identityMap.size());
+                logger.info("КОЛИЧЕСТВО ПРОДУКТОВ В PRODUCT_IDENTITY_MAP УВЕЛИЧИЛОСЬ -- " + identityMap.size());
             }
         }
         return product;
@@ -57,7 +83,7 @@ public class ProductRepository {
 
     public void update(Product product){
         identityMap.remove(product.getId());
-        logger.info("КОЛИЧЕСТВО ПРОДУКТОВ УМЕНЬШИЛОСЬ -- " + identityMap.size());
+        logger.info("КОЛИЧЕСТВО ПРОДУКТОВ В PRODUCT_IDENTITY_MAP УМЕНЬШИЛОСЬ -- " + identityMap.size());
         String sql = String.format("update products set title = '%s', brand_name = '%s', image = '%s'," +
                 " price = %s, category_id = %s where id = %s", product.getTitle(), product.getBrandName(), product.getImage(),
                  product.getPrice(), product.getCategory().getId(), product.getId());
