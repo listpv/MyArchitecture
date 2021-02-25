@@ -47,4 +47,16 @@ public class OrderEntryRepository {
         return findByProduct(product).size();
     }
 
+    public List<Order> addOrderEntries(List<Order> orderList){
+        for(Order order : orderList){
+            order.setOrderEntries(findByOrder(order));
+        }
+        return orderList;
+    }
+
+    public Order addOrderEntriesForOne(Order order){
+        order.setOrderEntries(findByOrder(order));
+        return order;
+    }
+
 }

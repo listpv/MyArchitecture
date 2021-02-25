@@ -35,4 +35,12 @@ public class OrderEntryService {
         return orderEntryRepository.getCountOrderByProduct(product);
     }
 
+    public List<Order> addOrderEntries(List<Order> orderList){
+        return orderEntryRepository.addOrderEntries(orderList);
+    }
+
+    public Order addOrderEntriesForOne(Order order){
+       return orderEntryRepository.addOrderEntriesForOne(order);
+    }
+
 }
