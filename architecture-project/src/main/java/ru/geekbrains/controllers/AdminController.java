@@ -98,7 +98,7 @@ public class AdminController extends Subject {
         model.addAttribute("count", orderEntryService.getCountProduct(product));
         model.addAttribute("count_user", userList.size());
         model.addAttribute("count_order", orderService.findByProduct(product).size());
-        model.addAttribute("count_order", orderEntryService.getCountOrderByProduct(product));
+//        model.addAttribute("count_order", orderEntryService.getCountOrderByProduct(product));
 
         return "product_admin";
     }
@@ -108,8 +108,10 @@ public class AdminController extends Subject {
     public String ordersWithProduct(
             @PathVariable Long id,
             Model model){
-        List<Order> orders = orderService.findByProduct(productService.getOne(id));
-        System.out.println("List<Order> orders   ---  " + orders);
+        Product product = productService.getOne(id);
+        System.out.println("Product product  -- " + product);
+        List<Order> orders = orderService.findByProduct(product);
+//        List<Order> orders = orderService.findByProduct(productService.getOne(id));
         model.addAttribute("orders", orders);
         model.addAttribute("total_price", orderService.getTotalPriceOfAllOrders(orders));
         return "orders";

@@ -55,11 +55,9 @@ public class OrderRepository {
     }
 
     public List<Order> findByProduct(Product product){
-//        String sql = String.format("select * from users join orders on users.id = orders.user_id join order_items " +
-//                "on orders.id = order_items.order_id where order_items.product_id = %s", product.getId());
         String sql = String.format("select * from orders join order_items on orders.id = " +
-                "order_items.id where order_items.product_id = %s", product.getId());
-//        String sql = String.format("select * from orders join order_items on orders.id = ")
+                "order_items.order_id where order_items.product_id = %s", product.getId());
         return jdbcTemplate.query(sql, orderMapper);
     }
+
 }

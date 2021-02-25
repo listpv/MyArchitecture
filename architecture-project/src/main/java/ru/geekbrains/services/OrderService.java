@@ -44,17 +44,11 @@ public class OrderService {
     }
 
     public List<Order> findAll() {
-        List<Order> orderList = orderRepository.findAll();
-        for(Order order : orderList){
-            order.setOrderEntries(orderEntryService.findByOrder(order));
-        }
-        return orderList;
+        return addOrderEntries(orderRepository.findAll());
     }
 
     public Order getOne(Long id){
-        Order order = orderRepository.getOne(id);
-        order.setOrderEntries(orderEntryService.findByOrder(order));
-        return order;
+        return addOrderEntriesForOne(orderRepository.getOne(id));
     }
 
     public List<Order> findOrdersByUser(User user){
@@ -66,13 +60,19 @@ public class OrderService {
     }
 
     public List<Order> findByProduct(Product product){
-        List<Order> orderList = orderRepository.findByProduct(product);
+        return addOrderEntries(orderRepository.findByProduct(product));
+    }
+
+    private List<Order> addOrderEntries(List<Order> orderList){
         for(Order order : orderList){
             order.setOrderEntries(orderEntryService.findByOrder(order));
         }
         return orderList;
+    }
 
-
+    private Order addOrderEntriesForOne(Order order){
+        order.setOrderEntries(orderEntryService.findByOrder(order));
+        return order;
     }
 
 //    @Transactional
