@@ -5,9 +5,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.geekbrains.entities.Order;
 import ru.geekbrains.entities.OrderEntry;
+import ru.geekbrains.entities.Product;
 import ru.geekbrains.entities.User;
 import ru.geekbrains.repositories.OrderRepository;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
@@ -42,7 +44,35 @@ public class OrderService {
     }
 
     public List<Order> findAll() {
-        return orderRepository.findAll();
+        List<Order> orderList = orderRepository.findAll();
+        for(Order order : orderList){
+            order.setOrderEntries(orderEntryService.findByOrder(order));
+        }
+        return orderList;
+    }
+
+    public Order getOne(Long id){
+        Order order = orderRepository.getOne(id);
+        order.setOrderEntries(orderEntryService.findByOrder(order));
+        return order;
+    }
+
+    public List<Order> findOrdersByUser(User user){
+        return orderRepository.findOrdersByUser(user);
+    }
+
+    public BigDecimal getTotalPriceOfAllOrders(List<Order> orderList){
+        return orderRepository.getTotalPriceOfAllOrders(orderList);
+    }
+
+    public List<Order> findByProduct(Product product){
+        List<Order> orderList = orderRepository.findByProduct(product);
+        for(Order order : orderList){
+            order.setOrderEntries(orderEntryService.findByOrder(order));
+        }
+        return orderList;
+
+
     }
 
 //    @Transactional

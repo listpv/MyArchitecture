@@ -3,6 +3,7 @@ package ru.geekbrains.repositories;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import ru.geekbrains.entities.Product;
 import ru.geekbrains.entities.User;
 import ru.geekbrains.mappers.UserMapper;
 
@@ -58,5 +59,11 @@ public class UserRepository {
         return jdbcTemplate.query(sql, userMapper);
     }
 
+    public List<User> findByProduct(Product product) {
+        String sql = String.format("select * from users join orders on users.id = orders.user_id join order_items " +
+                "on orders.id = order_items.order_id where order_items.product_id = %s", product.getId());
+        return jdbcTemplate.query(sql, userMapper);
+    }
 
 }
+

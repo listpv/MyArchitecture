@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="utf-8"/>
+    <title>Заказ</title>
+    <th:block th:replace="~{fragments/resources :: head/link}"></th:block>
+    <th:block th:replace="~{fragments/resources :: head/script}"></th:block>
+</head>
+<body>
+<div class="container">
+    <div th:replace="~{fragments/navigation :: navigation(Products)}" />
+    <h3>Заказ <td th:text="${order.id}"/> </h3>
+    <h3>Код заказа <td th:text="${order.code}"/> </h3>
+    <h3>Владелец заказа <td th:text="${order.user.name}"/> </h3>
+    <h3>Цена заказа <td th:text="#{text.products.price(${order.totalPrice})}"/> </h3>
+
+    <table class="table table-hover">
+        <thead class="thead-dark">
+        <tr>
+            <th>ID</th>
+            <th>Фотография</th>
+            <th>Название</th>
+            <th>Бренд</th>
+            <th>Цена</th>
+            <th>Количество</th>
+            <th>Общая цена</th>
+            <th>Действие</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="o_i : ${order_items}">
+            <td th:text="${o_i.product.id}"/>
+            <td align="center">
+                <img th:src="@{'/img/' + ${o_i.product.image}}" th:width="100" />
+            </td>
+            <td th:text="${o_i.product.title}"/>
+            <td th:text="${o_i.product.brandName}"/>
+            <td th:text="#{text.products.price(${o_i.basePrice})}"/>
+            <td th:text="${o_i.quantity}"/>
+            <td th:text="#{text.products.price(${o_i.totalPrice})}"/>
+            <td>
+                <a class="btn btn-primary" th:href="@{'/admin/product/' + ${o_i.product.id}}">Посмотреть</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

@@ -16,8 +16,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.geekbrains.data.UserAdminData;
 import ru.geekbrains.data.UserData;
+import ru.geekbrains.entities.Product;
 import ru.geekbrains.entities.Role;
 import ru.geekbrains.entities.User;
+import ru.geekbrains.repositories.OrderRepository;
 import ru.geekbrains.repositories.UserRepository;
 import ru.geekbrains.repositories.UserRoleRepository;
 import ru.geekbrains.utils.UserBuilder;
@@ -37,6 +39,8 @@ public class UserService implements UserDetailsService {
     private final PasswordEncoder passwordEncoder;
     private final RoleService roleService;
     private final UserRoleRepository userRoleRepository;
+    private final OrderRepository orderRepository;
+
 
 //    public UserService(UserRepository userRepository
 //            , PasswordEncoder passwordEncoder
@@ -68,7 +72,9 @@ public class UserService implements UserDetailsService {
     }
 
     public User getOne(Long id){
-        return userRepository.getOne(id);
+        User user = userRepository.getOne(id);
+        user.setOrders(orderRepository.findOrdersByUser(user));
+        return user;
     }
 
 //    public User createUser(UserData userData){
@@ -154,6 +160,18 @@ public class UserService implements UserDetailsService {
     }
 
     public List<User> findAll(){
-        return userRepository.findAll();
+        List<User> userList = userRepository.findAll();
+        for(User user : userList){
+            user.setOrders(orderRepository.findOrdersByUser(user));
+        }
+        return userList;
+    }
+
+    public List<User> findByProduct(Product product){
+        List<User> userList = userRepository.findByProduct(product);
+        for(User user : userList){
+            user.setOrders(orderRepository.findOrdersByUser(user));
+        }
+        return userList;
     }
 }

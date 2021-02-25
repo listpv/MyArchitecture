@@ -4,8 +4,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import ru.geekbrains.entities.Order;
+import ru.geekbrains.entities.Product;
+import ru.geekbrains.entities.User;
 import ru.geekbrains.mappers.OrderMapper;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Repository
@@ -30,5 +33,33 @@ public class OrderRepository {
                         "values ('%s', %s, %s)",
                order.getCode(), order.getUser().getId(), order.getTotalPrice());
         jdbcTemplate.execute(sql);
+    }
+
+    public Order getOne(Long id){
+        String sql = String.format("select * from orders where id = %s", id);
+        return jdbcTemplate.queryForObject(sql, orderMapper);
+    }
+
+    public List<Order> findOrdersByUser(User user){
+        String sql = String.format("select * from orders where user_id = %s", user.getId());
+        return jdbcTemplate.query(sql, orderMapper);
+    }
+
+    public BigDecimal getTotalPriceOfAllOrders(List<Order> orderList){
+        BigDecimal totalPrice = BigDecimal.ZERO;
+        for(Order order : orderList){
+            totalPrice = totalPrice.add(order.getTotalPrice());
+        }
+        System.out.println("TOTAL_PRICE --  " + totalPrice);
+        return totalPrice;
+    }
+
+    public List<Order> findByProduct(Product product){
+//        String sql = String.format("select * from users join orders on users.id = orders.user_id join order_items " +
+//                "on orders.id = order_items.order_id where order_items.product_id = %s", product.getId());
+        String sql = String.format("select * from orders join order_items on orders.id = " +
+                "order_items.id where order_items.product_id = %s", product.getId());
+//        String sql = String.format("select * from orders join order_items on orders.id = ")
+        return jdbcTemplate.query(sql, orderMapper);
     }
 }

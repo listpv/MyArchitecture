@@ -2,14 +2,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8"/>
-    <title>Спмсок клиентов</title>
+    <title>Список клиентов</title>
     <th:block th:replace="~{fragments/resources :: head/link}"></th:block>
     <th:block th:replace="~{fragments/resources :: head/script}"></th:block>
 </head>
 <body>
 <div class="container">
     <div th:replace="~{fragments/navigation :: navigation(Users)}" />
-    <h1>Спмсок клиентов</h1>
+    <h1>Список клиентов</h1>
 
     <br>
     <table class="table table-hover">
@@ -22,6 +22,8 @@
             <th>ДР</th>
             <th>Email</th>
             <th>Телефон</th>
+            <th>Количество заказов</th>
+            <th>Действие</th>
         </tr>
         </thead>
         <tbody>
@@ -33,6 +35,11 @@
             <td th:text="${u.getBirthday()}"/>
             <td th:text="${u.getEmail()}"/>
             <td th:text="${u.getPhone()}"/>
+            <td th:text="${u.orders.size()}"/>
+            <td>
+                <a class="btn btn-primary" th:href="@{'/admin/user/' + ${u.id}}">Посмотреть</a>
+            </td>
+
         </tr>
         </tbody>
     </table>
